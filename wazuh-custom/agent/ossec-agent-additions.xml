@@ -1,0 +1,71 @@
+<!-- =======================================================================
+  ossec-agent-additions.xml — Konfigurasi tambahan untuk Wazuh Agent
+  
+  Tambahkan blok-blok konfigurasi ini ke file ossec.conf Wazuh Agent:
+    Windows: C:\Program Files (x86)\ossec-agent\ossec.conf
+  
+  Setelah edit, restart agent:
+    PowerShell: Restart-Service WazuhSvc
+  
+  ⚠️  Sesuaikan path folder dengan lokasi project Anda!
+======================================================================= -->
+
+<!-- ===================================================================
+  1. LOG COLLECTION — Nginx Access & Error Log
+  
+  Nginx log di-mount dari Docker ke folder host:
+    ./logs/nginx/access.log
+    ./logs/nginx/error.log
+  
+  Sesuaikan path absolut di bawah dengan lokasi project Anda.
+==================================================================== -->
+
+<localfile>
+  <log_format>apache</log_format>
+  <location>E:\Kuliah\Semester 6\KP\wazuh\webkominfo-main\webkominfo-main\logs\nginx\access.log</location>
+</localfile>
+
+<localfile>
+  <log_format>apache</log_format>
+  <location>E:\Kuliah\Semester 6\KP\wazuh\webkominfo-main\webkominfo-main\logs\nginx\error.log</location>
+</localfile>
+
+<!-- ===================================================================
+  2. FILE INTEGRITY MONITORING (FIM)
+  
+  Monitor perubahan pada folder upload aplikasi.
+  - realtime="yes": deteksi perubahan secara real-time
+  - report_changes="yes": log detail isi file yang berubah
+  
+  Path yang dimonitor:
+  a. Folder public/uploads (fallback upload lokal)
+  b. Folder project source code (opsional, untuk deteksi defacement)
+==================================================================== -->
+
+<syscheck>
+  <!-- Monitor folder upload (fallback dari MinIO ke local storage) -->
+  <directories realtime="yes" report_changes="yes" check_all="yes">E:\Kuliah\Semester 6\KP\wazuh\webkominfo-main\webkominfo-main\public\uploads</directories>
+  
+  <!-- Monitor folder konfigurasi penting -->
+  <directories realtime="yes" check_all="yes">E:\Kuliah\Semester 6\KP\wazuh\webkominfo-main\webkominfo-main\nginx</directories>
+  
+  <!-- Frequency: scan setiap 300 detik (5 menit) -->
+  <frequency>300</frequency>
+</syscheck>
+
+<!-- ===================================================================
+  3. ACTIVE RESPONSE (opsional)
+  
+  Jika ingin agent menjalankan script response saat alert tertentu:
+  (Uncomment dan sesuaikan jika dibutuhkan)
+==================================================================== -->
+
+<!--
+<active-response>
+  <disabled>no</disabled>
+  <command>custom-response</command>
+  <location>local</location>
+  <rules_id>100005,100011</rules_id>
+  <timeout>3600</timeout>
+</active-response>
+-->

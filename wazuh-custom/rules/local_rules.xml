@@ -1,0 +1,202 @@
+<!-- =======================================================================
+  local_rules.xml — Custom Wazuh Detection Rules untuk webkominfo
+  
+  Rule ID Range : 100001 - 100099 (custom range, tidak bentrok dengan built-in)
+  Target        : Log Nginx (access log format: combined/apache)
+  
+  Cara deploy:
+    1. Copy file ini ke container Wazuh Manager:
+       docker cp local_rules.xml <wazuh-manager-container>:/var/ossec/etc/rules/local_rules.xml
+    2. Restart Wazuh Manager:
+       docker exec <wazuh-manager-container> /var/ossec/bin/wazuh-control restart
+    3. Atau mount via volume di docker-compose.yml
+  
+  Parent rules yang digunakan:
+    - 31100: Web server 400 error (decoded by web-accesslog decoder)
+    - 31101: Web server 403 Forbidden
+    - 31104: Web server 4xx error
+    - 31108: Web server 5xx error  
+    - 31120: Generic web access log
+    
+  ⚠️  Rules ini hanya untuk LAB TESTING LOKAL terhadap aplikasi milik sendiri.
+======================================================================= -->
+
+<group name="webkominfo,attack,web,">
+
+  <!-- ===================================================================
+    100001: DETEKSI SQL INJECTION — Pattern di URL/Query String
+    Level 12: High severity
+    Trigger: Keyword SQL injection umum di URL request
+  ==================================================================== -->
+  <rule id="100001" level="12">
+    <if_sid>31100,31101,31104,31108,31120,31122,31106</if_sid>
+    <url type="pcre2">(?i)(union(%20|\s)+(all(%20|\s)+)?select|information_schema|sleep(%20|\s)*\(|benchmark(%20|\s)*\(|'((%20|\s)*or(%20|\s)*'1'(%20|\s)*=(%20|\s)*'1|--)|;(%20|\s)*drop(%20|\s)+table|concat(%20|\s)*\(|load_file(%20|\s)*\(|into(%20|\s)+outfile|into(%20|\s)+dumpfile)</url>
+    <description>Percobaan SQL Injection terdeteksi pada URL request.</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+    <group>attack,sqli,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100002: DETEKSI SQL INJECTION — Pattern tambahan
+    Level 12: High severity
+    Trigger: Pattern SQLi lanjutan (hex encoding, comment bypass)
+  ==================================================================== -->
+  <rule id="100002" level="12">
+    <if_sid>31100,31101,31104,31108,31120,31122</if_sid>
+    <url type="pcre2">(?i)(0x[0-9a-f]+|char(%20|\s)*\(|ascii(%20|\s)*\(|ord(%20|\s)*\(|unhex(%20|\s)*\(|hex(%20|\s)*\(|extractvalue(%20|\s)*\(|updatexml(%20|\s)*\(|group_concat(%20|\s)*\(|/\*.*\*/)</url>
+    <description>Percobaan SQL Injection tingkat lanjut terdeteksi. Ditemukan penggunaan encoding atau fungsi SQL yang mencurigakan di URL.</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+    <group>attack,sqli,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100003: DETEKSI PATH TRAVERSAL
+    Level 12: High severity
+    Trigger: Pattern directory traversal di URL
+  ==================================================================== -->
+  <rule id="100003" level="12">
+    <if_sid>31100,31101,31104,31108,31120,31122</if_sid>
+    <url type="pcre2">(?i)(\.\./|\.\.\\|/etc/passwd|/etc/shadow|/etc/hosts|/proc/self|/var/log|/windows/system32|%2e%2e%2f|%2e%2e/|\.%2e/|%2e\./|\.\.%5c|\.\.%255c)</url>
+    <description>Percobaan Path Traversal (Directory Traversal) terdeteksi. Penyerang mencoba mengakses file di luar direktori web root.</description>
+    <mitre>
+      <id>T1083</id>
+    </mitre>
+    <group>attack,path_traversal,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100004: DETEKSI BRUTE FORCE — Single failed/redirect attempt pada endpoint admin/auth
+    Level 5: Low severity (individual event, akan di-escalate oleh 100005)
+  ==================================================================== -->
+  <rule id="100004" level="6">
+    <if_sid>31100,31101,31103,31104,31120,31122</if_sid>
+    <url type="pcre2">(?i)(/admin|/api/auth/login|/login)</url>
+    <description>Akses atau percobaan login terdeteksi pada endpoint autentikasi. Dipantau untuk deteksi brute force.</description>
+    <group>authentication_failed,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100005: DETEKSI BRUTE FORCE — Frequency rule
+    Level 10: Alert severity
+    Trigger: 5+ kali 401/403/307 dari IP yang sama dalam 60 detik
+  ==================================================================== -->
+  <rule id="100005" level="10" frequency="5" timeframe="60">
+    <if_matched_sid>100004</if_matched_sid>
+    <same_source_ip />
+    <description>Serangan Brute Force terdeteksi! Terdapat 5+ percobaan login gagal/akses berulang dari IP yang sama dalam 60 detik pada endpoint autentikasi aplikasi.</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+    <group>attack,brute_force,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100006: DETEKSI SCANNER TOOLS — User-Agent mencurigakan
+    Level 11: Medium-High severity
+    Trigger: User-Agent dari tools scanning yang dikenal
+  ==================================================================== -->
+  <rule id="100006" level="11">
+    <if_sid>31100,31101,31104,31108,31120,31122</if_sid>
+    <match type="pcre2">(?i)(sqlmap|nikto|nmap|dirbuster|gobuster|wpscan|nuclei|hydra|medusa|burpsuite|owasp|zaproxy|w3af|acunetix|nessus|openvas|masscan|whatweb|wfuzz|ffuf|feroxbuster|dirb)</match>
+    <description>User-Agent dari tool scanning/penetration testing terdeteksi. Kemungkinan ada aktivitas reconnaissance atau scanning otomatis terhadap aplikasi.</description>
+    <mitre>
+      <id>T1595</id>
+    </mitre>
+    <group>attack,recon,scanner,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100007: DETEKSI AKSES FILE SENSITIF
+    Level 10: Alert severity
+    Trigger: Percobaan akses ke file/path sensitif
+  ==================================================================== -->
+  <rule id="100007" level="10">
+    <if_sid>31100,31101,31104,31108,31120,31122</if_sid>
+    <url type="pcre2">(?i)(\.env|\.git/|\.gitignore|\.htaccess|\.htpasswd|wp-admin|wp-login|phpmyadmin|adminer|/server-status|/server-info|web\.config|\.DS_Store|\.svn/|\.hg/|composer\.json|package\.json|Gemfile|requirements\.txt)</url>
+    <description>Percobaan akses ke file atau path sensitif terdeteksi. Penyerang mencoba mengakses file konfigurasi, version control, atau panel admin yang seharusnya tidak terbuka.</description>
+    <mitre>
+      <id>T1083</id>
+    </mitre>
+    <group>attack,recon,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100008: DETEKSI XSS (Cross-Site Scripting) di URL
+    Level 11: Medium-High severity
+    Trigger: Pattern XSS umum di URL
+  ==================================================================== -->
+  <rule id="100008" level="11">
+    <if_sid>31100,31101,31104,31108,31120,31122</if_sid>
+    <url type="pcre2">(?i)(\<script|javascript:|onerror(%20|\s)*=|onload(%20|\s)*=|onclick(%20|\s)*=|onfocus(%20|\s)*=|onmouseover(%20|\s)*=|%3cscript|%3c%2fscript|alert(%20|\s)*\(|prompt(%20|\s)*\(|confirm(%20|\s)*\(|document\.cookie|document\.location|window\.location)</url>
+    <description>Percobaan Cross-Site Scripting (XSS) terdeteksi pada URL request. Ditemukan pola injeksi JavaScript yang mencurigakan.</description>
+    <mitre>
+      <id>T1059.007</id>
+    </mitre>
+    <group>attack,xss,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100009: DETEKSI FILE UPLOAD BERBAHAYA — Request ke endpoint upload
+    Level 10: Alert severity
+    Trigger: Upload file dengan ekstensi berbahaya
+  ==================================================================== -->
+  <rule id="100009" level="10">
+    <if_sid>31100,31101,31104,31108,31120,31122</if_sid>
+    <url type="pcre2">(?i)/api/upload.*\.(php|asp|aspx|jsp|cgi|pl|py|sh|bat|exe|dll|cmd|ps1|vbs|wsf|scr|pif)</url>
+    <description>Percobaan upload file dengan ekstensi berbahaya terdeteksi pada endpoint upload. File jenis ini berpotensi digunakan untuk remote code execution.</description>
+    <mitre>
+      <id>T1105</id>
+    </mitre>
+    <group>attack,file_upload,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100010: DETEKSI COMMAND INJECTION di URL
+    Level 13: Critical severity
+    Trigger: Pattern command injection di URL
+  ==================================================================== -->
+  <rule id="100010" level="13">
+    <if_sid>31100,31101,31104,31108,31120,31122</if_sid>
+    <url type="pcre2">(?i)(\||;|\$\(|`|%7c|%3b|%24%28|\bping\b|\bwhoami\b|\bcat(%20|\s)+/|\bls(%20|\s)+-|\bwget\b|\bcurl\b|\bnc(%20|\s)+-|\bbash\b|\bsh(%20|\s)+-c|\bpowershell\b|\bcmd\.exe\b)</url>
+    <description>Percobaan Command Injection (OS Command Injection) terdeteksi pada URL. Penyerang mencoba menjalankan perintah sistem operasi melalui aplikasi web.</description>
+    <mitre>
+      <id>T1059</id>
+    </mitre>
+    <group>attack,command_injection,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100011: DETEKSI MULTIPLE SQL INJECTION — Severity tinggi
+    Level 14: Critical (escalation dari 100001)
+    Trigger: 3+ SQLi attempt dari IP yang sama dalam 120 detik
+  ==================================================================== -->
+  <rule id="100011" level="14" frequency="3" timeframe="120">
+    <if_matched_sid>100001</if_matched_sid>
+    <same_source_ip />
+    <description>PERINGATAN KRITIS: Serangan SQL Injection masif terdeteksi! Terdapat 3+ percobaan SQL injection dari IP yang sama dalam 2 menit. Kemungkinan besar menggunakan tool otomatis seperti sqlmap.</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+    <group>attack,sqli,webkominfo,</group>
+  </rule>
+
+  <!-- ===================================================================
+    100012: DETEKSI SCANNING MASIF
+    Level 12: High severity
+    Trigger: 20+ request 404 dari IP yang sama dalam 30 detik
+  ==================================================================== -->
+  <rule id="100012" level="12" frequency="20" timeframe="30">
+    <if_matched_sid>31103</if_matched_sid>
+    <same_source_ip />
+    <description>Directory/file scanning masif terdeteksi! Terdapat 20+ request 404 (Not Found) dari IP yang sama dalam 30 detik. Mengindikasikan penggunaan tool directory brute-force.</description>
+    <mitre>
+      <id>T1595</id>
+    </mitre>
+    <group>attack,recon,scanning,webkominfo,</group>
+  </rule>
+
+</group>

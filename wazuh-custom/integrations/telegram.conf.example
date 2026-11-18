@@ -1,0 +1,16 @@
+# =============================================================================
+# telegram.conf — Konfigurasi Telegram Bot untuk Wazuh notifications
+#
+# File ini di-deploy ke Wazuh Manager container:
+#   /var/ossec/etc/telegram.conf
+#
+# ⚠️  ISI DENGAN CREDENTIAL ANDA — JANGAN commit ke git!
+# =============================================================================
+
+# Telegram Bot Token (dapatkan dari @BotFather di Telegram)
+TELEGRAM_BOT_TOKEN="YOUR_BOT_TOKEN_HERE"
+
+# Telegram Chat ID (bisa group chat ID atau personal chat ID)
+# Untuk mendapatkan chat ID, kirim pesan ke bot lalu akses:
+# https://api.telegram.org/bot<TOKEN>/getUpdates
+TELEGRAM_CHAT_ID="YOUR_CHAT_ID_HERE"

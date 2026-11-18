@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeri Tombol Telco & GSM Modern - Baca Selengkapnya</title>
+  
+  <!-- Premium Sans-serif Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* CSS Variables based on requested palette */
+    :root {
+      --primary-green: #00A651;      /* Fresh signal green */
+      --dark-green: #046C4E;         /* Text & hover green */
+      --light-green: #D1FADF;        /* Badge soft accent */
+      --white: #FFFFFF;              /* Primary background */
+      --gray-text: #667085;          /* Neutral secondary */
+      --yellow-accent: #FDB022;      /* Promo highlight */
+      
+      --bg-dark: #0A110E;
+      --bg-light: #F4F7F5;
+      --card-border: rgba(0, 166, 81, 0.12);
+      
+      --font-family: 'Plus Jakarta Sans', 'Manrope', -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-light);
+      color: #1A1A1A;
+      line-height: 1.5;
+      padding: 40px 20px;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Dark Mode styling */
+    body.dark {
+      background-color: var(--bg-dark);
+      color: #F8F9FA;
+    }
+
+    .container {
+      max-w: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header Design */
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .badge-telco {
+      display: inline-block;
+      background-color: var(--light-green);
+      color: var(--dark-green);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 99px;
+      margin-bottom: 16px;
+      letter-spacing: 1.5px;
+    }
+
+    h1 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--dark-green);
+      margin-bottom: 12px;
+    }
+
+    body.dark h1 {
+      color: #FFFFFF;
+    }
+
+    .subtitle {
+      color: var(--gray-text);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    /* Controls Panel */
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .control-btn {
+      background-color: var(--white);
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
+      color: #1A1A1A;
+    }
+
+    .control-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px -2px rgba(0,0,0,0.1);
+    }
+
+    body.dark .control-btn {
+      background-color: #14221D;
+      color: #FFFFFF;
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    /* Component Grid Layout */
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    /* Component Card */
+    .component-card {
+      background-color: var(--white);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 8px 24px -4px rgba(0, 166, 81, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease;
+      min-height: 380px;
+    }
+
+    .component-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px -8px rgba(0, 166, 81, 0.1);
+    }
+
+    body.dark .component-card {
+      background-color: #121F1A;
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+      margin-bottom: 24px;
+    }
+
+    .card-label {
+      color: var(--primary-green);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      color: var(--gray-text);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    /* Render Window Box */
+    .render-box {
+      background-color: #F8FAF9;
+      border-radius: 16px;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      border: 1px dashed rgba(0, 166, 81, 0.15);
+      min-height: 120px;
+      transition: background-color 0.4s ease;
+    }
+
+    body.dark .render-box {
+      background-color: #0E1815;
+    }
+
+    /* Card Footer Copy code btn */
+    .card-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--gray-text);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      color: var(--dark-green);
+      background-color: rgba(0, 166, 81, 0.06);
+    }
+
+    body.dark .copy-btn:hover {
+      color: #FFFFFF;
+      background-color: rgba(255,255,255,0.06);
+    }
+
+
+    /* ========================================== */
+    /*        BUTTON STYLES & INTERACTIONS        */
+    /* ========================================== */
+
+    /* Universal Arrow SVG size */
+    .btn-svg {
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* 1. Underline Slide-in */
+    .btn-underline-slide {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--dark-green);
+      font-weight: 700;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      font-size: 15px;
+      transition: color 0.3s ease;
+    }
+    body.dark .btn-underline-slide {
+      color: #D1FADF;
+    }
+    .btn-underline-slide::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-green);
+      transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .btn-underline-slide:hover::after {
+      width: 100%;
+    }
+    .btn-underline-slide svg {
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .btn-underline-slide:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* 2. Arrow Shift Right */
+    .btn-arrow-shift {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--dark-green);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 15px;
+      transition: gap 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.3s ease;
+    }
+    body.dark .btn-arrow-shift {
+      color: #D1FADF;
+    }
+    .btn-arrow-shift svg {
+      transition: transform 0.3s ease;
+    }
+    .btn-arrow-shift:hover {
+      gap: 12px;
+    }
+
+    /* 3. Pill Solid Green */
+    .btn-pill-solid {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--primary-green);
+      color: var(--white);
+      font-weight: 700;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 14px;
+      box-shadow: 0 4px 14px rgba(0, 166, 81, 0.25);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .btn-pill-solid:hover {
+      background-color: var(--dark-green);
+      box-shadow: 0 6px 20px rgba(4, 108, 78, 0.35);
+      transform: translateY(-2px);
+    }
+    .btn-pill-solid .pill-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+    }
+    .btn-pill-solid:hover .pill-icon {
+      transform: translateX(4px);
+    }
+
+    /* 4. Outline Fill */
+    .btn-outline-fill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid var(--primary-green);
+      color: var(--primary-green);
+      font-weight: 700;
+      text-decoration: none;
+      padding: 10px 22px;
+      border-radius: 12px;
+      font-size: 14px;
+      background-color: transparent;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .btn-outline-fill:hover {
+      background-color: var(--primary-green);
+      color: var(--white);
+      box-shadow: 0 6px 16px rgba(0, 166, 81, 0.2);
+      transform: translateY(-1px);
+    }
+    .btn-outline-fill svg {
+      transition: transform 0.3s ease;
+    }
+    .btn-outline-fill:hover svg {
+      transform: translateX(3px);
+    }
+
+    /* 5. Circle Arrow Rotate (45deg + Yellow highlight) */
+    .btn-circle-arrow-rotate {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--dark-green);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 15px;
+      transition: color 0.3s ease;
+    }
+    body.dark .btn-circle-arrow-rotate {
+      color: #FFFFFF;
+    }
+    .btn-circle-arrow-rotate .circle-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--dark-green);
+      border-radius: 50%;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    body.dark .btn-circle-arrow-rotate .circle-wrapper {
+      border-color: rgba(255,255,255,0.3);
+    }
+    .btn-circle-arrow-rotate:hover {
+      color: var(--yellow-accent);
+    }
+    .btn-circle-arrow-rotate:hover .circle-wrapper {
+      border-color: var(--yellow-accent);
+      background-color: var(--yellow-accent);
+      color: #1A1A1A;
+      transform: rotate(-45deg);
+    }
+
+    /* 6. Minimal Link with Expanding Dot */
+    .btn-minimal-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray-text);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    .btn-minimal-dot .dot-indicator {
+      width: 6px;
+      height: 6px;
+      background-color: var(--primary-green);
+      border-radius: 50%;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-minimal-dot:hover {
+      color: var(--dark-green);
+    }
+    body.dark .btn-minimal-dot:hover {
+      color: #FFFFFF;
+    }
+    .btn-minimal-dot:hover .dot-indicator {
+      width: 14px;
+      height: 14px;
+      background-color: var(--primary-green);
+      border-radius: 4px; /* morph to rounded square */
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: #121F1A;
+      color: #FFFFFF;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+      border: 1px solid rgba(0, 166, 81, 0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: 999;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <header>
+      <span class="badge-telco">GSM & Telco Design Token</span>
+      <h1>Galeri Tombol "Baca Selengkapnya"</h1>
+      <p class="subtitle">Koleksi variasi interaksi tombol baca selengkapnya dengan transisi mikro modern khas portal telekomunikasi terpercaya.</p>
+      
+      <div class="controls">
+        <button class="control-btn" id="themeToggle">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          Ganti Tema Gelap/Terang
+        </button>
+      </div>
+    </header>
+
+    <div class="component-grid">
+
+      <!-- Style 1: Underline Slide-in -->
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-label">Variasi 01</div>
+          <h3 class="card-title">Underline Slide</h3>
+          <p class="card-desc">Garis bawah muncul halus dari kiri ke kanan. Sangat bagus dipakai untuk navigasi tekstual atau di bagian bawah kartu artikel grid portal berita agar tidak merusak layout visual.</p>
+        </div>
+        <div class="render-box">
+          <a href="#" class="btn-underline-slide" onclick="event.preventDefault()">
+            <span>Baca Selengkapnya</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke-width="2.5" class="btn-svg"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+        <div class="card-footer">
+          <button class="copy-btn" onclick="copyCode(1)">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-svg"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Salin HTML/CSS
+          </button>
+        </div>
+      </div>
+
+      <!-- Style 2: Arrow Shift -->
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-label">Variasi 02</div>
+          <h3 class="card-title">Arrow Slide Shift</h3>
+          <p class="card-desc">Jarak gap antara teks dan panah membesar perlahan saat di-hover. Ideal untuk tombol berbaris di bagian layanan cepat atau daftar menu samping.</p>
+        </div>
+        <div class="render-box">
+          <a href="#" class="btn-arrow-shift" onclick="event.preventDefault()">
+            <span>Baca Selengkapnya</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke-width="2.5" class="btn-svg"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+        <div class="card-footer">
+          <button class="copy-btn" onclick="copyCode(2)">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-svg"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Salin HTML/CSS
+          </button>
+        </div>
+      </div>
+
+      <!-- Style 3: Pill Solid Green -->
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-label">Variasi 03</div>
+          <h3 class="card-title">Pill Solid Green</h3>
+          <p class="card-desc">Tombol berbentuk pil yang kokoh dengan efek bayangan (shadow) elegan khas signal GSM. Terbaik digunakan sebagai Call to Action (CTA) utama seperti di slide Banner Banner Teratas.</p>
+        </div>
+        <div class="render-box">
+          <a href="#" class="btn-pill-solid" onclick="event.preventDefault()">
+            <span>Baca Selengkapnya</span>
+            <span class="pill-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke-width="3" class="btn-svg"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+          </a>
+        </div>
+        <div class="card-footer">
+          <button class="copy-btn" onclick="copyCode(3)">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-svg"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Salin HTML/CSS
+          </button>
+        </div>
+      </div>
+
+      <!-- Style 4: Outline Fill -->
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-label">Variasi 04</div>
+          <h3 class="card-title">Outline Fill Glow</h3>
+          <p class="card-desc">Tombol outline bersudut lengkung sedang, berubah menjadi solid saat di-hover. Cocok digunakan sebagai tombol sekunder di samping CTA utama agar tidak berebut fokus visual.</p>
+        </div>
+        <div class="render-box">
+          <a href="#" class="btn-outline-fill" onclick="event.preventDefault()">
+            <span>Baca Selengkapnya</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke-width="2.5" class="btn-svg"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+        <div class="card-footer">
+          <button class="copy-btn" onclick="copyCode(4)">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-svg"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Salin HTML/CSS
+          </button>
+        </div>
+      </div>
+
+      <!-- Style 5: Circle Arrow Rotate -->
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-label">Variasi 05</div>
+          <h3 class="card-title">Circle Rotate & Yellow Glow</h3>
+          <p class="card-desc">Ikon panah di dalam lingkaran berputar -45 derajat dan berubah menjadi warna kuning promo saat di-hover. Cocok untuk menonjolkan penawaran khusus atau rujukan pengumuman mendesak.</p>
+        </div>
+        <div class="render-box">
+          <a href="#" class="btn-circle-arrow-rotate" onclick="event.preventDefault()">
+            <span>Baca Selengkapnya</span>
+            <span class="circle-wrapper">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke-width="2.5" class="btn-svg"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+          </a>
+        </div>
+        <div class="card-footer">
+          <button class="copy-btn" onclick="copyCode(5)">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-svg"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Salin HTML/CSS
+          </button>
+        </div>
+      </div>
+
+      <!-- Style 6: Minimal Link with Expanding Dot -->
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-label">Variasi 06</div>
+          <h3 class="card-title">Minimal Dot Morph</h3>
+          <p class="card-desc">Teks abu-abu netral dengan indikator titik sinyal hijau di kanan yang membesar lembut saat di-hover. Sangat baik digunakan untuk tautan minimalis di bagian footer atau detail sekilas.</p>
+        </div>
+        <div class="render-box">
+          <a href="#" class="btn-minimal-dot" onclick="event.preventDefault()">
+            <span>Baca Selengkapnya</span>
+            <span class="dot-indicator"></span>
+          </a>
+        </div>
+        <div class="card-footer">
+          <button class="copy-btn" onclick="copyCode(6)">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-svg"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Salin HTML/CSS
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="toast" id="toastMessage">Kode komponen berhasil disalin!</div>
+
+  <script>
+    // Theme Toggle Functionality
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+    });
+
+    // Code Snippets Storage
+    const snippets = {
+      1: {
+        html: `<a href="#" class="btn-underline-slide">\n  <span>Baca Selengkapnya</span>\n  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>\n</a>`,
+        css: `.btn-underline-slide {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  color: #046C4E;\n  font-weight: 700;\n  text-decoration: none;\n  position: relative;\n  padding-bottom: 4px;\n  font-size: 15px;\n  transition: color 0.3s ease;\n}\n.btn-underline-slide::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 0;\n  height: 2px;\n  background-color: #00A651;\n  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);\n}\n.btn-underline-slide:hover::after {\n  width: 100%;\n}\n.btn-underline-slide svg {\n  transition: transform 0.3s ease;\n}\n.btn-underline-slide:hover svg {\n  transform: translateX(4px);\n}`
+      },
+      2: {
+        html: `<a href="#" class="btn-arrow-shift">\n  <span>Baca Selengkapnya</span>\n  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>\n</a>`,
+        css: `.btn-arrow-shift {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n  color: #046C4E;\n  font-weight: 700;\n  text-decoration: none;\n  font-size: 15px;\n  transition: gap 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.3s ease;\n}\n.btn-arrow-shift svg {\n  transition: transform 0.3s ease;\n}\n.btn-arrow-shift:hover {\n  gap: 12px;\n}`
+      },
+      3: {
+        html: `<a href="#" class="btn-pill-solid">\n  <span>Baca Selengkapnya</span>\n  <span class="pill-icon">\n    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>\n  </span>\n</a>`,
+        css: `.btn-pill-solid {\n  display: inline-flex;\n  align-items: center;\n  gap: 10px;\n  background-color: #00A651;\n  color: #FFFFFF;\n  font-weight: 700;\n  text-decoration: none;\n  padding: 12px 24px;\n  border-radius: 999px;\n  font-size: 14px;\n  box-shadow: 0 4px 14px rgba(0, 166, 81, 0.25);\n  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);\n}\n.btn-pill-solid:hover {\n  background-color: #046C4E;\n  box-shadow: 0 6px 20px rgba(4, 108, 78, 0.35);\n  transform: translateY(-2px);\n}\n.btn-pill-solid .pill-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: transform 0.3s ease;\n}\n.btn-pill-solid:hover .pill-icon {\n  transform: translateX(4px);\n}`
+      },
+      4: {
+        html: `<a href="#" class="btn-outline-fill">\n  <span>Baca Selengkapnya</span>\n  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>\n</a>`,
+        css: `.btn-outline-fill {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  border: 2px solid #00A651;\n  color: #00A651;\n  font-weight: 700;\n  text-decoration: none;\n  padding: 10px 22px;\n  border-radius: 12px;\n  font-size: 14px;\n  background-color: transparent;\n  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);\n}\n.btn-outline-fill:hover {\n  background-color: #00A651;\n  color: #FFFFFF;\n  box-shadow: 0 6px 16px rgba(0, 166, 81, 0.2);\n  transform: translateY(-1px);\n}\n.btn-outline-fill svg {\n  transition: transform 0.3s ease;\n}\n.btn-outline-fill:hover svg {\n  transform: translateX(3px);\n}`
+      },
+      5: {
+        html: `<a href="#" class="btn-circle-arrow-rotate">\n  <span>Baca Selengkapnya</span>\n  <span class="circle-wrapper">\n    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>\n  </span>\n</a>`,
+        css: `.btn-circle-arrow-rotate {\n  display: inline-flex;\n  align-items: center;\n  gap: 12px;\n  color: #046C4E;\n  font-weight: 700;\n  text-decoration: none;\n  font-size: 15px;\n  transition: color 0.3s ease;\n}\n.btn-circle-arrow-rotate .circle-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 32px;\n  height: 32px;\n  border: 2px solid #046C4E;\n  border-radius: 50%;\n  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.btn-circle-arrow-rotate:hover {\n  color: #FDB022;\n}\n.btn-circle-arrow-rotate:hover .circle-wrapper {\n  border-color: #FDB022;\n  background-color: #FDB022;\n  color: #1A1A1A;\n  transform: rotate(-45deg);\n}`
+      },
+      6: {
+        html: `<a href="#" class="btn-minimal-dot">\n  <span>Baca Selengkapnya</span>\n  <span class="dot-indicator"></span>\n</a>`,
+        css: `.btn-minimal-dot {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  color: #667085;\n  font-weight: 600;\n  text-decoration: none;\n  font-size: 14px;\n  transition: color 0.3s ease;\n}\n.btn-minimal-dot .dot-indicator {\n  width: 6px;\n  height: 6px;\n  background-color: #00A651;\n  border-radius: 50%;\n  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);\n}\n.btn-minimal-dot:hover {\n  color: #046C4E;\n}\n.btn-minimal-dot:hover .dot-indicator {\n  width: 14px;\n  height: 14px;\n  background-color: #00A651;\n  border-radius: 4px;\n}`
+      }
+    };
+
+    // Copy to Clipboard Utility
+    function copyCode(id) {
+      const codeBlock = `<style>\n${snippets[id].css}\n</style>\n\n${snippets[id].html}`;
+      navigator.clipboard.writeText(codeBlock).then(() => {
+        const toast = document.getElementById('toastMessage');
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2500);
+      }).catch(err => {
+        console.error('Gagal menyalin kode:', err);
+      });
+    }
+  </script>
+
+</body>
+</html>

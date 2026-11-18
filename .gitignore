@@ -1,0 +1,68 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# database dumps
+*.sql
+
+# uploads
+/public/uploads/
+
+
+/src/generated/prisma
+/scratch
+
+# =============================================================================
+# Security Testing Lab — jangan commit file-file berikut
+# =============================================================================
+
+# Nginx logs (di-mount dari Docker, bisa besar)
+/logs/nginx/*.log
+/logs/nginx/access.log
+/logs/nginx/error.log
+
+# SSL certificates (generated, sensitif)
+/nginx/ssl/*.pem
+/nginx/ssl/*.key
+/nginx/ssl/*.crt
+
+# Baseline backups (bisa besar, berisi dump DB)
+/baseline/
+
+# Wazuh Docker setup (compose terpisah, punya volume sendiri)
+/wazuh/
+
+# Fail2ban config lokal
+/fail2ban/
+
+# Testing environment variables
+.env.testing
+
+# Telegram Bot credentials (gunakan telegram.conf.example)
+/wazuh-custom/integrations/telegram.conf

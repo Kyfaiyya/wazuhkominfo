@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String @id @default(cuid())
+  username     String @unique
+  name         String
+  role         String // 'superadmin' | 'admin' | 'user'
+  passwordHash String
+
+  @@map("users")
+}
+
+model News {
+  id        String @id @default(cuid())
+  title     String
+  excerpt   String
+  content   String
+  date      String
+  category  String
+  author    String
+  image     String
+  status    String @default("published")
+  tags      String @default("")
+  updatedAt String @default("")
+
+  @@map("news")
+}
+
+model Announcement {
+  id     String  @id @default(cuid())
+  title  String
+  date   String
+  type   String
+  urgent Boolean
+  desc   String
+
+  @@map("announcements")
+}
+
+model PageContent {
+  slug   String @id
+  title  String
+  fields Json
+
+  @@map("page_contents")
+}
+
+model Comment {
+  id        String @id @default(cuid())
+  newsId    String
+  userEmail String
+  userName  String
+  content   String
+  date      String
+
+  @@map("comments")
+}
+
+model MapPoint {
+  id       String  @id @default(cuid())
+  name     String
+  category String
+  lat      Float
+  lng      Float
+  status   String
+  details  String
+  location String
+  videoId  String?
+
+  @@map("map_points")
+}
+
+model ApiRequest {
+  id           String  @id @default(cuid())
+  name         String
+  email        String
+  organization String
+  purpose      String
+  status       String
+  date         String
+  apiKey       String?
+
+  @@map("api_requests")
+}

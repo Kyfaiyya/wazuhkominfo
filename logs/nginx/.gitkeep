@@ -1,0 +1,2 @@
+# This file exists to ensure the logs/nginx/ directory is tracked by git.
+# Nginx container will write access.log and error.log here.
